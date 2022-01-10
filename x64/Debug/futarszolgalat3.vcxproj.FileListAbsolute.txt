@@ -1,0 +1,2 @@
+C:\Users\Kussa Richárd\Desktop\KR\C++\grafprojekt001\x64\Debug\futarszolgalat3.exe
+C:\Users\Kussa Richárd\Desktop\KR\C++\grafprojekt001\x64\Debug\futarszolgalat3.pdb
