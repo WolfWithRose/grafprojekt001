@@ -1,0 +1,12 @@
+﻿  futarszolgalat3.cpp
+C:\Users\user\source\repos\futarszolgalat3\futarszolgalat3.cpp(10,26): warning C4018: '<': signed/unsigned mismatch
+C:\Users\user\source\repos\futarszolgalat3\futarszolgalat3.cpp(12,30): warning C4018: '<': signed/unsigned mismatch
+C:\Users\user\source\repos\futarszolgalat3\futarszolgalat3.cpp(64,26): warning C4018: '<': signed/unsigned mismatch
+C:\Users\user\source\repos\futarszolgalat3\futarszolgalat3.cpp(74,26): warning C4018: '<': signed/unsigned mismatch
+C:\Users\user\source\repos\futarszolgalat3\futarszolgalat3.cpp(93,26): warning C4018: '<': signed/unsigned mismatch
+C:\Users\user\source\repos\futarszolgalat3\futarszolgalat3.cpp(99,26): warning C4018: '<': signed/unsigned mismatch
+C:\Users\user\source\repos\futarszolgalat3\futarszolgalat3.cpp(103,30): warning C4018: '<': signed/unsigned mismatch
+C:\Users\user\source\repos\futarszolgalat3\futarszolgalat3.cpp(122,26): warning C4018: '<': signed/unsigned mismatch
+C:\Users\user\source\repos\futarszolgalat3\futarszolgalat3.cpp(127,34): warning C4018: '<': signed/unsigned mismatch
+C:\Users\user\source\repos\futarszolgalat3\futarszolgalat3.cpp(131,34): warning C4018: '<': signed/unsigned mismatch
+  futarszolgalat3.vcxproj -> C:\Users\user\source\repos\futarszolgalat3\Debug\futarszolgalat3.exe
