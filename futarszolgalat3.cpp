@@ -8,9 +8,9 @@ using namespace std;
 void Kiir(vector<vector<int>> matrix, int N, int K) // Mátrixok kiírása
 {
     system("CLS");
-    for (size_t i = 0; i < K; i++)
+    for (int i = 0; i < K; i++)
     {
-        for (size_t j = 0; j < N; j++)
+        for (int j = 0; j < N; j++)
         {
             cout << matrix[i][j] << " ";
         }
@@ -22,9 +22,19 @@ vector<int> DijkstraAlgoritmus(vector<vector<int>> &graf, int src, int N, vector
     queue<int> sorrend;
     sorrend.push(src);
     vector<int> tavolsagok(N, INT_MAX);
+    vector<bool> volt(N, 0);
+    tavolsagok[src - 1] = 0;
     while (!sorrend.empty())
     {
-
+        int tennivalo = sorrend.front();
+        sorrend.pop();
+        for (int i = 0; i < N; i++)
+        {
+            if (graf[tennivalo - 1][i] != 0 && !volt[graf[tennivalo - 1][i]])
+            {
+                sorrend.push(i);
+            }
+        }      
     }
     return tavolsagok;
 }
@@ -38,7 +48,7 @@ int main()
     int X;
     int Y;
     int Z;
-    for (size_t i = 0; i < N-1; i++)
+    for (int i = 0; i < N-1; i++)
     {
         cin >> X;
         cin >> Y;
@@ -47,7 +57,7 @@ int main()
         kapcsolatok[Y - 1][X - 1] = Z;
     }
     vector<int> allomasok;
-    for (size_t i = 0; i < K; i++)
+    for (int i = 0; i < K; i++)
     {
         cin >> X;
         allomasok.push_back(X);        
@@ -56,7 +66,7 @@ int main()
     // Ellenõrzés
     /*
     Kiir(kapcsolatok, N, N);
-    for (size_t i = 0; i < K; i++)
+    for (int i = 0; i < K; i++)
     {
         cout << allomasok[i] << " ";
     }
@@ -64,8 +74,10 @@ int main()
     */
 
     // Feladat
-    for (size_t i = 0; i < K-1; i++)
+    vector<vector<int>> graf;
+    for (int i = 0; i < K-1; i++)
     {
-
+        vector<int> tolto = DijkstraAlgoritmus(kapcsolatok, allomasok[i], N, allomasok, K);
+        graf.push_back(tolto);
     }
 }
