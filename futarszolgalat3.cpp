@@ -17,26 +17,40 @@ void Kiir(vector<vector<int>> matrix, int N, int K) // Mátrixok kiírása
         cout << endl;
     }
 }
+int Min(vector<int> tavolsagok, vector<bool> volt, int N)
+{
+    int min = INT_MAX, mindex;
+    for (int i = 0; i < N; i++)
+    {
+        if (volt[i] == false && tavolsagok[i] <= min)
+        {
+            min = tavolsagok[i], mindex = i;
+        }                
+    }        
+    return mindex;
+}
 vector<int> DijkstraAlgoritmus(vector<vector<int>> &graf, int src, int N, vector<int> allomasok, int K)
 {
-    queue<int> sorrend;
-    sorrend.push(src);
     vector<int> tavolsagok(N, INT_MAX);
     vector<bool> volt(N, 0);
     tavolsagok[src - 1] = 0;
-    while (!sorrend.empty())
-    {
-        int tennivalo = sorrend.front();
-        sorrend.pop();
-        for (int i = 0; i < N; i++)
+    for (int count = 0; count < N - 1; count++) {
+        int u = Min(tavolsagok, volt, N);
+        volt[u] = true;
+        for (int v = 0; v < N; v++)
         {
-            if (graf[tennivalo - 1][i] != 0 && !volt[graf[tennivalo - 1][i]])
+            if (!volt[v] && graf[u][v] && tavolsagok[u] != INT_MAX && tavolsagok[u] + graf[u][v] < tavolsagok[v])
             {
-                sorrend.push(i);
+                tavolsagok[v] = tavolsagok[u] + graf[u][v];
             }
-        }      
+        }
     }
-    return tavolsagok;
+    vector<int> kevesebbtavolsagok;
+    for (size_t i = 0; i < K; i++)
+    {
+        kevesebbtavolsagok.push_back(tavolsagok[allomasok[i] - 1]);
+    }
+    return kevesebbtavolsagok;
 }
 int main()
 {
@@ -74,10 +88,11 @@ int main()
     */
 
     // Feladat
-    vector<vector<int>> graf;
-    for (int i = 0; i < K-1; i++)
+    vector<vector<int>> graf; // Létrehozzuk a legrövidebb utakat tartalmazó mátrixot
+    for (int i = 0; i < K; i++)
     {
         vector<int> tolto = DijkstraAlgoritmus(kapcsolatok, allomasok[i], N, allomasok, K);
         graf.push_back(tolto);
     }
+    Kiir(graf, N, K);
 }
