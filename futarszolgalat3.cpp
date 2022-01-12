@@ -5,6 +5,11 @@
 
 using namespace std;
 
+struct MyStruct
+{
+    vector<vector<int>> graf;
+
+};
 void Kiir(vector<vector<int>> matrix, int N, int K) // Mátrixok kiírása
 {
     system("CLS");
@@ -34,7 +39,8 @@ vector<int> DijkstraAlgoritmus(vector<vector<int>> &graf, int src, int N, vector
     vector<int> tavolsagok(N, INT_MAX);
     vector<bool> volt(N, 0);
     tavolsagok[src - 1] = 0;
-    for (int count = 0; count < N - 1; count++) {
+    for (int count = 0; count < N - 1; count++)
+    {
         int u = Min(tavolsagok, volt, N);
         volt[u] = true;
         for (int v = 0; v < N; v++)
@@ -94,5 +100,5 @@ int main()
         vector<int> tolto = DijkstraAlgoritmus(kapcsolatok, allomasok[i], N, allomasok, K);
         graf.push_back(tolto);
     }
-    Kiir(graf, N, K);
+    //Kiir(graf, K, K);
 }
