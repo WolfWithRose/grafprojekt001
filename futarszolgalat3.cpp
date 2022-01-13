@@ -1,16 +1,15 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-#include <queue>
 
 using namespace std;
 
-struct MyStruct
+struct Map
 {
-    vector<vector<int>> graf;
-
+    vector<int> tavolsagok;
+    vector<vector<int>> utvonalak;
 };
-void Kiir(vector<vector<int>> matrix, int N, int K) // Mátrixok kiírása
+void Kiir(vector<vector<int>> matrix, int N, int K)
 {
     system("CLS");
     for (int i = 0; i < K; i++)
@@ -20,6 +19,24 @@ void Kiir(vector<vector<int>> matrix, int N, int K) // Mátrixok kiírása
             cout << matrix[i][j] << " ";
         }
         cout << endl;
+    }
+}
+void KiirMap(vector<Map> vilagterkep, vector<int> allomasok)
+{
+    system("CLS");
+    for (int i = 0; i < vilagterkep.size(); i++)
+    {
+        cout << "Source: " << allomasok[i] << endl;
+        cout << "Target" << "\t\t" << "Distance" << "\t" << "Path" << endl;
+        for (int j = 0; j < vilagterkep[i].tavolsagok.size(); j++)
+        {
+            cout << allomasok[j] << "\t\t" << vilagterkep[i].tavolsagok[j] << '\t';
+            for (int k = 0; k < vilagterkep[i].utvonalak[j].size(); k++)
+            {
+                cout << vilagterkep[i].utvonalak[j][k] << " ";
+            }
+            cout << endl;
+        }        
     }
 }
 int Min(vector<int> tavolsagok, vector<bool> volt, int N)
@@ -34,10 +51,12 @@ int Min(vector<int> tavolsagok, vector<bool> volt, int N)
     }        
     return mindex;
 }
-vector<int> DijkstraAlgoritmus(vector<vector<int>> &graf, int src, int N, vector<int> allomasok, int K)
+struct Map DijkstraAlgoritmus(vector<vector<int>> &graf, int src, int N, vector<int> allomasok, int K)
 {
+    struct Map terkep;
     vector<int> tavolsagok(N, INT_MAX);
     vector<bool> volt(N, 0);
+    vector<vector<int>> utvonalak(N); /////////
     tavolsagok[src - 1] = 0;
     for (int count = 0; count < N - 1; count++)
     {
@@ -52,11 +71,13 @@ vector<int> DijkstraAlgoritmus(vector<vector<int>> &graf, int src, int N, vector
         }
     }
     vector<int> kevesebbtavolsagok;
-    for (size_t i = 0; i < K; i++)
+    for (int i = 0; i < K; i++)
     {
         kevesebbtavolsagok.push_back(tavolsagok[allomasok[i] - 1]);
     }
-    return kevesebbtavolsagok;
+    terkep.tavolsagok = kevesebbtavolsagok;
+    terkep.utvonalak = utvonalak;
+    return terkep;
 }
 int main()
 {
@@ -94,11 +115,12 @@ int main()
     */
 
     // Feladat
-    vector<vector<int>> graf; // Létrehozzuk a legrövidebb utakat tartalmazó mátrixot
+    vector<Map> vilagterkep; // Létrehozzuk a legrövidebb utakat tartalmazó mátrixot (utvonalakkal együtt >> Map)
+    struct Map terkep;
     for (int i = 0; i < K; i++)
-    {
-        vector<int> tolto = DijkstraAlgoritmus(kapcsolatok, allomasok[i], N, allomasok, K);
-        graf.push_back(tolto);
+    {        
+        terkep = DijkstraAlgoritmus(kapcsolatok, allomasok[i], N, allomasok, K);
+        vilagterkep.push_back(terkep);
     }
-    //Kiir(graf, K, K);
+    KiirMap(vilagterkep, allomasok);
 }
