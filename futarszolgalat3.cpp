@@ -30,7 +30,8 @@ void KiirMap(vector<Map> vilagterkep, vector<int> allomasok)
         cout << "Target" << "\t\t" << "Distance" << "\t" << "Path" << endl;
         for (int j = 0; j < vilagterkep[i].tavolsagok.size(); j++)
         {
-            cout << allomasok[j] << "\t\t" << vilagterkep[i].tavolsagok[j] << "\t\t";
+            cout << allomasok[j] << "\t\t";
+            cout << vilagterkep[i].tavolsagok[j] << "\t\t";
             for (int k = 0; k < vilagterkep[i].utvonalak[j].size(); k++)
             {
                 cout << vilagterkep[i].utvonalak[j][k] << " ";
@@ -56,7 +57,7 @@ struct Map DijkstraAlgoritmus(vector<vector<int>> &graf, int src, int N, vector<
     struct Map terkep;
     vector<int> tavolsagok(N, INT_MAX);
     vector<bool> volt(N, 0);
-    vector<vector<int>> utvonalak(N);
+    vector<vector<int>> utvonalak(K);
     tavolsagok[src - 1] = 0;
     for (int n = 0; n < N - 1; n++)
     {
@@ -70,12 +71,44 @@ struct Map DijkstraAlgoritmus(vector<vector<int>> &graf, int src, int N, vector<
             }
         }
     }
+    /*
+    for (int i = 0; i < N; i++)
+    {
+        cout << tavolsagok[i] << " ";
+    }
+    cout << endl;
+    */
     vector<int> kevesebbtavolsagok;
     for (int i = 0; i < K; i++)
     {
-        kevesebbtavolsagok.push_back(tavolsagok[allomasok[i] - 1]);
+        int tav = tavolsagok[allomasok[i] - 1];
+        kevesebbtavolsagok.push_back(tav);
+        int index = allomasok[i] - 1;
+        if (index == src - 1)
+        {
+            utvonalak[i].push_back(src);
+        }
+        else
+        {
+            while (tav != 0)
+            {
+                for (int j = 0; j < N; j++)
+                {
+                    if (tav - graf[index][j] == tavolsagok[j] && graf[index][j] != 0)
+                    {
+                        tav = tavolsagok[j];
+                        if (utvonalak[i].size() == 0)
+                        {
+                            utvonalak[i].push_back(index + 1);
+                        }
+                        utvonalak[i].push_back(j + 1);
+                        index = j;                        
+                        break;
+                    }
+                }
+            }
+        }
     }
-    // Itt kéne visszakeresni az útvonalat
     terkep.tavolsagok = kevesebbtavolsagok;
     terkep.utvonalak = utvonalak;
     return terkep;
@@ -104,10 +137,11 @@ int main()
         cin >> X;
         allomasok.push_back(X);        
     }
+    system("CLS");
 
     // Ellenõrzés
+    //Kiir(kapcsolatok, N, N);
     /*
-    Kiir(kapcsolatok, N, N);
     for (int i = 0; i < K; i++)
     {
         cout << allomasok[i] << " ";
@@ -123,5 +157,39 @@ int main()
         terkep = DijkstraAlgoritmus(kapcsolatok, allomasok[i], N, allomasok, K);
         vilagterkep.push_back(terkep);
     }
-    KiirMap(vilagterkep, allomasok);
+    //KiirMap(vilagterkep, allomasok);
+
+    // Megoldás
+    int minut = INT_MAX;
+    for (int k = 0; k < K; k++)
+    {
+        vector<int> voltak;
+        int index = k;
+        int eloszoba = 0;
+        for (int j = 0; j + 1 < K; j++)
+        {
+            int min = INT_MAX;
+            int mindex = -1;
+            for (int i = 0; i < K; i++)
+            {
+                if (vilagterkep[index].tavolsagok[i] < min && vilagterkep[index].tavolsagok[i] != 0 && count(voltak.begin(), voltak.end(), i) == 0)
+                {
+                    min = vilagterkep[index].tavolsagok[i];
+                    mindex = i;
+                }
+            }
+            voltak.push_back(index);
+            index = mindex;
+            if (j + 2 == K)
+            {
+                voltak.push_back(mindex);
+            }
+            eloszoba += min;
+        }
+        if (eloszoba < minut)
+        {
+            minut = eloszoba;
+        }
+    }
+    cout << minut << endl;
 }
