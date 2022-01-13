@@ -30,7 +30,7 @@ void KiirMap(vector<Map> vilagterkep, vector<int> allomasok)
         cout << "Target" << "\t\t" << "Distance" << "\t" << "Path" << endl;
         for (int j = 0; j < vilagterkep[i].tavolsagok.size(); j++)
         {
-            cout << allomasok[j] << "\t\t" << vilagterkep[i].tavolsagok[j] << '\t';
+            cout << allomasok[j] << "\t\t" << vilagterkep[i].tavolsagok[j] << "\t\t";
             for (int k = 0; k < vilagterkep[i].utvonalak[j].size(); k++)
             {
                 cout << vilagterkep[i].utvonalak[j][k] << " ";
@@ -56,15 +56,15 @@ struct Map DijkstraAlgoritmus(vector<vector<int>> &graf, int src, int N, vector<
     struct Map terkep;
     vector<int> tavolsagok(N, INT_MAX);
     vector<bool> volt(N, 0);
-    vector<vector<int>> utvonalak(N); /////////
+    vector<vector<int>> utvonalak(N);
     tavolsagok[src - 1] = 0;
-    for (int count = 0; count < N - 1; count++)
+    for (int n = 0; n < N - 1; n++)
     {
         int u = Min(tavolsagok, volt, N);
-        volt[u] = true;
+        volt[u] = true;        
         for (int v = 0; v < N; v++)
         {
-            if (!volt[v] && graf[u][v] && tavolsagok[u] != INT_MAX && tavolsagok[u] + graf[u][v] < tavolsagok[v])
+            if (!volt[v] && graf[u][v] != 0 && tavolsagok[u] != INT_MAX && tavolsagok[u] + graf[u][v] < tavolsagok[v])
             {
                 tavolsagok[v] = tavolsagok[u] + graf[u][v];
             }
@@ -75,6 +75,7 @@ struct Map DijkstraAlgoritmus(vector<vector<int>> &graf, int src, int N, vector<
     {
         kevesebbtavolsagok.push_back(tavolsagok[allomasok[i] - 1]);
     }
+    // Itt kéne visszakeresni az útvonalat
     terkep.tavolsagok = kevesebbtavolsagok;
     terkep.utvonalak = utvonalak;
     return terkep;
