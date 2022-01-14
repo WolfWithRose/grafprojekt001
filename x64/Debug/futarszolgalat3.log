@@ -1,3 +1,3 @@
 ﻿  futarszolgalat3.cpp
-C:\Users\user\Desktop\git\grafprojekt001\futarszolgalat3.cpp(203,46): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\user\Desktop\git\grafprojekt001\futarszolgalat3.cpp(204,46): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
   futarszolgalat3.vcxproj -> C:\Users\user\Desktop\git\grafprojekt001\x64\Debug\futarszolgalat3.exe
