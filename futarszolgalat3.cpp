@@ -139,7 +139,7 @@ int main()
     }
     system("CLS");
 
-    // Ellenõrzés
+    // Bemenet ellenõrzése
     //Kiir(kapcsolatok, N, N);
     /*
     for (int i = 0; i < K; i++)
@@ -149,8 +149,8 @@ int main()
     cout << endl;
     */
 
-    // Feladat
-    vector<Map> vilagterkep; // Létrehozzuk a legrövidebb utakat tartalmazó mátrixot (utvonalakkal együtt >> Map)
+    // Legrövidebb utak keresése
+    vector<Map> vilagterkep;
     struct Map terkep;
     for (int i = 0; i < K; i++)
     {        
@@ -161,13 +161,16 @@ int main()
 
     // Megoldás
     int minut = INT_MAX;
+    vector<vector<int>> minutvonal;
     for (int k = 0; k < K; k++)
     {
         vector<int> voltak;
         int index = k;
         int eloszoba = 0;
+        vector<vector<int>> utvonal;
         for (int j = 0; j + 1 < K; j++)
         {
+            vector<int> ut;
             int min = INT_MAX;
             int mindex = -1;
             for (int i = 0; i < K; i++)
@@ -175,6 +178,7 @@ int main()
                 if (vilagterkep[index].tavolsagok[i] < min && vilagterkep[index].tavolsagok[i] != 0 && count(voltak.begin(), voltak.end(), i) == 0)
                 {
                     min = vilagterkep[index].tavolsagok[i];
+                    ut = vilagterkep[index].utvonalak[i];
                     mindex = i;
                 }
             }
@@ -185,11 +189,27 @@ int main()
                 voltak.push_back(mindex);
             }
             eloszoba += min;
+            utvonal.push_back(ut);
         }
         if (eloszoba < minut)
         {
             minut = eloszoba;
+            minutvonal = utvonal;
         }
     }
     cout << minut << endl;
+    for (int i = 0; i < K - 1; i++)
+    {
+        for (int j = minutvonal[i].size() - 1; j > -1 ; j--)
+        {
+            if (j == minutvonal[i].size() - 1 && i == 0)
+            {
+                cout << minutvonal[i][j] << " ";
+            }
+            else if(j != minutvonal[i].size() - 1)
+            {
+                cout << minutvonal[i][j] << " ";
+            }
+        }
+    }
 }
